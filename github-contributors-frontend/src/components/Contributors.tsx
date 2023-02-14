@@ -1,11 +1,21 @@
 import { useCallback, useState } from "react";
 import useContributors from "../customHooks/useContributors";
+import useDebounce from "../customHooks/useDebounce";
+import ContributorsList from "./ContributorsList";
 
 const Contributors = () => {
     const [userName, setUserName] = useState('');
     const [repositoryName, setRepositoryName] = useState('');
+    const debouncedGithubUser = useDebounce(userName);
+    const debouncedGithubRepo = useDebounce(repositoryName);
 
-    const { data, isError, isLoading, error } = useContributors(userName, repositoryName);
+    const { 
+        data,
+        error,
+        isError,
+        isLoading,
+        isSuccess,
+     } = useContributors(debouncedGithubUser, debouncedGithubRepo);
 
     const onSetUserName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(event.currentTarget.value);
@@ -14,20 +24,6 @@ const Contributors = () => {
       const onSetRepositoryName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setRepositoryName(event.currentTarget.value);
     }, [setRepositoryName]);
-
-    let list;
-
-    if (isLoading) {
-        list = <div>Loading...</div>;
-    } else if (isError && (error instanceof Error)) {
-        list = <div>{error.message}</div>;
-    } else {
-        list = (
-            <ol>
-                {data.map((e: string, index: number) => <li key={index}>{e}</li>)}
-            </ol>
-        )
-    }
 
     return (
         <>
@@ -41,7 +37,13 @@ const Contributors = () => {
                     <input type="text" name="repositoryName" onChange={onSetRepositoryName} value={repositoryName} />
                 </label>
             </form>
-            {list}
+            <ContributorsList
+                data={data}
+                error={error instanceof Error ? error : undefined}
+                isError={isError}
+                isLoading={isLoading}
+                isSuccess={isSuccess}
+            />
         </>
     );
 };

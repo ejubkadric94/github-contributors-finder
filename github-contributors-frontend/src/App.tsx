@@ -1,9 +1,6 @@
-import React, { useCallback, useState } from 'react';
-
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-
-import './App.css';
+import { QueryClient, QueryClientProvider } from 'react-query'
 import Contributors from './components/Contributors';
+import './App.css';
  
 const queryClient = new QueryClient()
 

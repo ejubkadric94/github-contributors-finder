@@ -1,19 +1,22 @@
 import { useQuery } from "react-query";
+import Api from "../api/api";
 
-const useContributors = (userName: string, repositoryName: string) => {
-    const fetchContributors = async (userName: string, repositoryName: string) => {
-        const response = await fetch(`https://reqres.in/api/users?userName=${userName}&repositoryName=${repositoryName}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok')
+const useContributors = (githubUser: string, repositoryId: string) => {
+    const fetchContributors = async (githubUser: string, repositoryId: string) => {
+        const response = await fetch(Api.getRepositoryContributors(githubUser, repositoryId));
+        if (!!response && !response.ok) {
+            const error = await response.json();
+            throw new Error(error.message)
         }
-        const results = await response.json();
-        return results.data.map((el: { first_name: string }) => el.first_name);
+        return await response.json();
     };
 
     const contributors = useQuery(
-        ['contributors', userName, repositoryName],
-        () => fetchContributors(userName, repositoryName),
-        { staleTime: Infinity }
+        ['contributors', githubUser, repositoryId],
+        () => fetchContributors(githubUser, repositoryId),
+        {
+            enabled: !!githubUser && !!repositoryId,
+        }
     );
 
     return contributors;
