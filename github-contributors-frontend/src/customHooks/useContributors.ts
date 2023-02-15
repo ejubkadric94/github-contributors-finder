@@ -15,6 +15,8 @@ const useContributors = (githubUser: string, repositoryId: string) => {
         ['contributors', githubUser, repositoryId],
         () => fetchContributors(githubUser, repositoryId),
         {
+            staleTime: Infinity,
+            retry: 1,
             enabled: !!githubUser && !!repositoryId,
         }
     );

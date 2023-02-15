@@ -17,7 +17,7 @@ const ContributorsList = ({ isLoading, isError, error, isSuccess, data }: Props)
         return <div>{error.message}</div>;
     } else if (isSuccess && data) {
         return (
-            <ol>
+            <ol data-testid='list'>
                 {data.map((link: string, index: number) =>
                     <li key={index}>
                         <a href={link} target="_blank">{getUserNameFromGithubURL(link)}</a>
@@ -27,7 +27,7 @@ const ContributorsList = ({ isLoading, isError, error, isSuccess, data }: Props)
         )
     }
     
-    return <div></div>;
+    return <div />;
 };
 
 export default ContributorsList;

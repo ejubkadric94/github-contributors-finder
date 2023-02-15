@@ -30,11 +30,11 @@ const Contributors = () => {
             <form>
                 <label>
                     Github User:
-                    <input type="text" name="userName" onChange={onSetUserName} value={userName} />
+                    <input data-testid='repository' type="text" name="userName" onChange={onSetUserName} value={userName} />
                 </label>
                 <label>
                     Github Repository:
-                    <input type="text" name="repositoryName" onChange={onSetRepositoryName} value={repositoryName} />
+                    <input data-testid='username' type="text" name="repositoryName" onChange={onSetRepositoryName} value={repositoryName} />
                 </label>
             </form>
             <ContributorsList
