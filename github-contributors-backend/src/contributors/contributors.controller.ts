@@ -1,19 +1,20 @@
 import { Controller, Get, HttpException, HttpStatus, Query } from '@nestjs/common';
-import { AppService } from 'src/app.service';
+import { INVALID_QUERY_PARAMETERS } from '../utilities/texts';
+import { ContributorsService } from './contributors.service';
 
 @Controller('contributors')
 export class ContributorsController {
-    constructor(private readonly appService: AppService) {}
+    constructor(private readonly contributorsService: ContributorsService) {}
 
     @Get()
     async findContributorsOfGithubRepo(@Query() query: { repositoryId: string, githubUser: string }): Promise<string[]> {
         const { repositoryId, githubUser } = query;
         if (!repositoryId || !githubUser) {
-            throw new HttpException('Github user or repository not specified', HttpStatus.BAD_REQUEST);
+            throw new HttpException(INVALID_QUERY_PARAMETERS, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            return await this.appService.getContributorsFromGithub(githubUser, repositoryId);
+            return await this.contributorsService.getContributorsFromGithub(githubUser, repositoryId);
         } catch (error) {
             throw new HttpException(error.response.data.message, HttpStatus.BAD_REQUEST)
         }

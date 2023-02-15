@@ -1,0 +1,1 @@
+export const INVALID_QUERY_PARAMETERS = 'Github user or repository not specified';
