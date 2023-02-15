@@ -20,7 +20,7 @@ const ContributorsList = ({ isLoading, isError, error, isSuccess, data }: Props)
             <ol data-testid='list'>
                 {data.map((link: string, index: number) =>
                     <li key={index}>
-                        <a href={link} target="_blank">{getUserNameFromGithubURL(link)}</a>
+                        <a href={link} target="_blank" rel="noreferrer">{getUserNameFromGithubURL(link)}</a>
                     </li>
                 )}
             </ol>
