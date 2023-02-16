@@ -1,0 +1,2 @@
+## Github contributors app
+This is a sample app which demonstrates a `React` + `React Query` front end, and `NodeJs` + `NestJs` back end server, where a user can see the list of contributors who worked on any public Github Repository. The user will need to input the repository name and the repository owner name.
